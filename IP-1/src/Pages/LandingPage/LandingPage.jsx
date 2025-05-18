@@ -145,7 +145,6 @@ const LandingPage = () => {
                 <div className="container">
                     <h1>Find & Book Local Professionals Instantly</h1>
                     <p className="subtitle">Plumbers, electricians, beauticians, and more – all at your fingertips.</p>
-                    <br /><br /><br /><br /><br /> {/* Consider using CSS for spacing */}
                     <form className="hero-search-form" onSubmit={handleSearch}>
                         <input type="text" name="search" placeholder="What service do you need? (e.g., plumber in Patna)" required />
                         <button type="submit" className="btn btn-primary">
