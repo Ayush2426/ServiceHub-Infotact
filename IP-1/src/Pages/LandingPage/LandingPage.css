@@ -1,18 +1,16 @@
-/* Homepage.css */
+/* LandingPage.css */
 
 /* --- Global Styles & Variables --- */
 :root {
     --primary-color: #007bff;
-    /* Example: Blue */
     --primary-color-dark: #0056b3;
     --secondary-color: #6c757d;
-    /* Example: Gray */
-    --secondary-color-dark: #545b62;
     --accent-color: #ffc107;
-    /* Example: Yellow */
     --light-color: #f8f9fa;
     --dark-color: #343a40;
     --text-color: #212529;
+    --border-color: #dee2e6;
+    /* Added for consistency */
     --border-radius: 8px;
     --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -25,7 +23,6 @@ body {
     line-height: 1.6;
     color: var(--text-color);
     background-color: #fff;
-    /* Default background */
 }
 
 .container {
@@ -42,16 +39,15 @@ h4 {
     margin-top: 0;
     margin-bottom: 0.75rem;
     font-weight: 600;
+    color: var(--dark-color);
 }
 
 h1 {
     font-size: 2.8rem;
-    color: var(--dark-color);
 }
 
 h2 {
     font-size: 2.2rem;
-    color: var(--dark-color);
     text-align: center;
     margin-bottom: 2rem;
 }
@@ -76,7 +72,8 @@ a {
 
 a:hover {
     color: var(--primary-color-dark);
-    text-decoration: underline;
+    text-decoration: none;
+    /* Often remove underline for modern look, rely on color change */
 }
 
 img {
@@ -85,19 +82,24 @@ img {
     display: block;
 }
 
-/* --- Utility Classes --- */
+/* --- Utility Classes & Buttons (General) --- */
 .btn {
-    display: inline-block;
+    display: inline-flex;
+    /* For icon alignment */
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
     padding: 0.75rem 1.5rem;
     font-size: 1rem;
     font-weight: 500;
     text-align: center;
     border-radius: var(--border-radius);
     cursor: pointer;
-    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out, color 0.3s ease-in-out, transform 0.2s ease;
     border: 1px solid transparent;
     line-height: 1.5;
-    /* Ensure text is centered vertically */
+    text-decoration: none;
+    /* Ensure Link components styled as buttons don't have underlines */
 }
 
 .btn-primary {
@@ -110,8 +112,8 @@ img {
     background-color: var(--primary-color-dark);
     border-color: var(--primary-color-dark);
     color: #fff;
-    /* Ensure text color remains white on hover */
-    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
 }
 
 .btn-secondary {
@@ -121,25 +123,46 @@ img {
 }
 
 .btn-secondary:hover {
-    background-color: var(--secondary-color-dark);
-    border-color: var(--secondary-color-dark);
+    background-color: #545b62;
+    /* Darken secondary color */
+    border-color: #545b62;
     color: #fff;
-    text-decoration: none;
+    transform: translateY(-2px);
 }
+
+.btn-secondary.exploreButton {
+    /* Specific for explore buttons on cards */
+    background-color: var(--light-color);
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+
+.btn-secondary.exploreButton:hover {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
 
 .btn-large {
     padding: 1rem 2rem;
     font-size: 1.1rem;
 }
 
-/* --- Header / Navigation --- */
+/* --- Main Header (Navbar Container) --- */
 .main-header {
     background-color: #fff;
     padding: 1rem 0;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--box-shadow);
+    border-bottom: 1px solid var(--border-color);
     position: sticky;
     top: 0;
     z-index: 1000;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.main-header.scrolled {
+    /* Add this class with JS on scroll for a subtle effect */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .main-header .container {
@@ -148,52 +171,87 @@ img {
     align-items: center;
 }
 
+/* Logo Styling */
 .logo a {
     font-size: 1.8rem;
     font-weight: 700;
     color: var(--dark-color);
     text-decoration: none;
+    transition: transform 0.3s ease, color 0.3s ease;
+    display: inline-block;
+}
+
+.logo a:hover {
+    transform: scale(1.05);
+    color: var(--primary-color);
 }
 
 .logo .logo-accent {
     color: var(--primary-color);
+    transition: color 0.3s ease;
 }
 
-.main-nav ul {
+.logo a:hover .logo-accent {
+    color: var(--primary-color-dark);
+}
+
+/* Main Navigation (Desktop) */
+.main-nav.LandingNav ul {
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
     align-items: center;
+    gap: 0.5rem;
 }
 
-.main-nav li {
-    margin-left: 1.5rem;
-}
-
-.main-nav a {
+.main-nav.LandingNav a:not(.btn) {
     color: var(--text-color);
     font-weight: 500;
     text-decoration: none;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--border-radius);
+    position: relative;
+    transition: color 0.3s ease, background-color 0.3s ease;
 }
 
-.main-nav a:hover,
-.main-nav a.active {
+.main-nav.LandingNav a:not(.btn)::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 50%;
+    background-color: var(--primary-color);
+    transition: width 0.3s ease-in-out, left 0.3s ease-in-out;
+}
+
+.main-nav.LandingNav a:not(.btn):hover::after {
+    width: 100%;
+    left: 0;
+}
+
+.main-nav.LandingNav a:not(.btn):hover,
+.main-nav.LandingNav a:not(.btn).active {
     color: var(--primary-color);
-    text-decoration: none;
 }
 
-.main-nav .btn {
-    margin-left: 1.5rem;
+/* Buttons in Navbar */
+.main-nav.LandingNav .btn {
+    padding: 0.6rem 1rem;
+    /* Slightly smaller for navbar */
+    font-size: 0.9rem;
+    margin-left: 0.5rem;
 }
 
+/* Mobile Navigation Toggle */
 .mobile-nav-toggle {
     display: none;
-    /* Hidden by default, shown on small screens */
     background: none;
     border: none;
     cursor: pointer;
     padding: 0.5rem;
+    z-index: 1001;
 }
 
 .mobile-nav-toggle span {
@@ -202,31 +260,48 @@ img {
     height: 3px;
     background-color: var(--dark-color);
     margin: 5px 0;
+    border-radius: 3px;
     transition: all 0.3s ease-in-out;
+}
+
+.mobile-nav-toggle:hover span {
+    background-color: var(--primary-color);
+}
+
+.mobile-nav-toggle.active span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.mobile-nav-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-nav-toggle.active span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
 }
 
 /* --- Hero Section --- */
 .hero-section {
-    background: linear-gradient(rgba(0, 123, 255, 0.05), rgba(0, 123, 255, 0.05)), url('https://placehold.co/1920x600/e0e0e0/666666?text=City+Skyline+Background') no-repeat center center/cover;
-    /* Placeholder image */
+    background: linear-gradient(rgba(0, 123, 255, 0.03), rgba(0, 123, 255, 0.03)), url('https://placehold.co/1920x650/e0e7ff/3336cc?text=Quality+Services+Background') no-repeat center center/cover;
     color: var(--dark-color);
-    /* Text color adjusted for better contrast on light gradient */
     padding: 6rem 0;
+    /* Increased padding */
     text-align: center;
 }
 
 .hero-section h1 {
     margin-bottom: 1rem;
     font-weight: 700;
+    font-size: 3rem;
+    /* Larger hero title */
     color: var(--dark-color);
-    /* Ensure h1 is dark for contrast */
 }
 
 .hero-section .subtitle {
     font-size: 1.25rem;
     margin-bottom: 2.5rem;
-    color: #555;
-    /* Slightly lighter than black for subtitle */
+    color: #4a5568;
+    /* Softer subtitle color */
     max-width: 700px;
     margin-left: auto;
     margin-right: auto;
@@ -240,33 +315,35 @@ img {
     margin: 0 auto;
     background-color: #fff;
     border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-    padding: 0.5rem;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    /* More pronounced shadow */
+    padding: 0.6rem;
+    border: 1px solid var(--border-color);
 }
 
 .hero-search-form input[type="text"] {
     flex-grow: 1;
     padding: 0.9rem 1rem;
     font-size: 1rem;
-    border: 1px solid #ced4da;
-    border-right: none;
-    border-radius: var(--border-radius) 0 0 var(--border-radius);
+    border: none;
+    /* Remove border, container has one */
+    border-radius: calc(var(--border-radius) - 4px) 0 0 calc(var(--border-radius) - 4px);
     outline: none;
 }
 
-.hero-search-form input[type="text"]:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
+.hero-search-form .btn {
+    /* Button within search form */
+    border-radius: 0 calc(var(--border-radius) - 4px) calc(var(--border-radius) - 4px) 0;
+    padding: 0.9rem 1.5rem;
+    box-shadow: none;
+    /* Remove individual shadow if container has one */
 }
 
-.hero-search-form .btn {
-    border-radius: 0 var(--border-radius) var(--border-radius) 0;
-    padding: 0.9rem 1.5rem;
-    /* Match input height */
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+.hero-search-form .btn:hover {
+    transform: none;
+    /* Disable lift for this specific button if desired */
 }
+
 
 /* --- Service Categories Section --- */
 .service-categories-section {
@@ -295,14 +372,12 @@ img {
 }
 
 .service-category-card svg {
-    /* Icon styling */
     margin-bottom: 1rem;
     color: var(--primary-color);
 }
 
 .service-category-card h3 {
     margin-bottom: 0.5rem;
-    color: var(--dark-color);
 }
 
 .service-category-card p {
@@ -310,12 +385,13 @@ img {
     color: var(--secondary-color);
     margin-bottom: 1.5rem;
     min-height: 40px;
-    /* Ensure consistent card height if descriptions vary */
 }
 
 /* --- How It Works Section --- */
 .how-it-works-section {
     padding: 4rem 0;
+    background-color: #fff;
+    /* Alternate background */
 }
 
 .how-it-works-grid {
@@ -341,11 +417,11 @@ img {
     font-size: 1.5rem;
     font-weight: 600;
     margin: 0 auto 1rem auto;
+    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
 }
 
 .how-it-works-step h4 {
     margin-bottom: 0.5rem;
-    color: var(--dark-color);
 }
 
 .how-it-works-step p {
@@ -377,7 +453,6 @@ img {
 }
 
 .cta-buttons .btn-primary {
-    /* Override for CTA primary */
     background-color: #fff;
     color: var(--primary-color);
     border-color: #fff;
@@ -386,10 +461,10 @@ img {
 .cta-buttons .btn-primary:hover {
     background-color: #f0f0f0;
     border-color: #f0f0f0;
+    color: var(--primary-color-dark);
 }
 
 .cta-buttons .btn-secondary {
-    /* Override for CTA secondary */
     background-color: transparent;
     color: #fff;
     border: 2px solid #fff;
@@ -399,7 +474,6 @@ img {
     background-color: rgba(255, 255, 255, 0.1);
     border-color: #fff;
 }
-
 
 /* --- Footer --- */
 .main-footer {
@@ -411,9 +485,7 @@ img {
 
 .main-footer .container {
     padding-top: 1rem;
-    /* Add some padding to the top of the container */
     padding-bottom: 1rem;
-    /* Add some padding to the bottom of the container */
 }
 
 .footer-content {
@@ -425,7 +497,6 @@ img {
 
 .footer-logo {
     flex-basis: 100%;
-    /* Full width on small screens */
     margin-bottom: 1rem;
     font-size: 1.5rem;
     font-weight: bold;
@@ -461,7 +532,6 @@ img {
 .footer-links a {
     color: var(--light-color);
     opacity: 0.8;
-    text-decoration: none;
 }
 
 .footer-links a:hover {
@@ -475,8 +545,6 @@ img {
     opacity: 0.8;
     margin-right: 1rem;
     font-size: 1.2rem;
-    /* For icon placeholders */
-    text-decoration: none;
 }
 
 .footer-social a:hover {
@@ -484,73 +552,146 @@ img {
     color: #fff;
 }
 
+
 /* --- Responsive Design --- */
-@media (min-width: 768px) {
-    .footer-logo {
-        flex-basis: auto;
-        /* Reset basis for larger screens */
+@media (min-width: 769px) {
+
+    /* Apply to screens larger than typical mobile/tablet portrait */
+    .main-nav.LandingNav.active {
+        /* Ensure desktop styles are not affected by mobile 'active' state if window resized while open */
+        display: flex !important;
+        position: static;
+        flex-direction: row;
+        background-color: transparent;
+        padding: 0;
+        box-shadow: none;
+        border-top: none;
+        max-height: none;
+        overflow-y: visible;
+    }
+
+    .main-nav.LandingNav.active ul {
+        flex-direction: row;
+        align-items: center;
+        /* Re-align for desktop */
+    }
+
+    .main-nav.LandingNav.active li {
+        width: auto;
+        margin: 0;
+        /* Reset margin */
+    }
+
+    .main-nav.LandingNav.active a:not(.btn),
+    .main-nav.LandingNav.active .btn {
+        display: inline-flex;
+        /* Revert to inline-flex or inline */
+        width: auto;
+        text-align: left;
+        /* Revert text align */
+        padding: 0.5rem 0.75rem;
+        /* Revert padding for text links */
+        margin: 0;
+        /* Reset margin */
+    }
+
+    .main-nav.LandingNav.active .btn {
+        padding: 0.6rem 1rem;
+        /* Revert padding for buttons */
+        margin-left: 0.5rem;
+    }
+
+    .main-nav.LandingNav.active a:not(.btn)::after {
+        display: block;
+        /* Re-enable underline effect for desktop */
     }
 }
 
-@media (max-width: 768px) {
+
+@media (max-width: 992px) {
+
+    /* Breakpoint for tablet and mobile */
     .main-header .container {
         flex-wrap: wrap;
-        /* Allow wrapping for mobile nav toggle */
+        /* Allow logo and toggle to wrap if needed, though unlikely */
     }
 
-    .main-nav {
+    .main-nav.LandingNav {
         display: none;
-        /* Hide nav by default on mobile */
+        /* Hide desktop nav by default */
+        order: 3;
+        /* Ensure it's below logo and toggle in source if they wrap */
         width: 100%;
+    }
+
+    .main-nav.LandingNav.active {
+        display: flex;
         flex-direction: column;
-        align-items: flex-start;
-        margin-top: 1rem;
-        background-color: #fff;
-        /* Add background for clarity */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        /* Add shadow for open menu */
         position: absolute;
         top: 100%;
-        /* Position below header */
+        /* Position below the header */
         left: 0;
         right: 0;
-        padding: 1rem 0;
+        background-color: #ffffff;
+        padding: 1rem;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        border-top: 1px solid var(--border-color);
+        max-height: calc(100vh - 70px);
+        /* Adjust 70px based on your header height */
+        overflow-y: auto;
+        /* Make menu scrollable if content is too long */
+        z-index: 999;
+        /* Below header but above page content */
     }
 
-    .main-nav.active {
-        /* Class to show mobile nav */
-        display: flex;
-    }
-
-    .main-nav ul {
+    .main-nav.LandingNav ul {
         flex-direction: column;
         width: 100%;
+        gap: 0;
     }
 
-    .main-nav li {
-        margin: 0.75rem 0;
+    .main-nav.LandingNav li {
         width: 100%;
-        text-align: center;
+        margin: 0;
+        border-bottom: 1px solid #f0f0f0;
+        /* Separator for mobile links */
     }
 
-    .main-nav li a {
+    .main-nav.LandingNav li:last-child {
+        border-bottom: none;
+    }
+
+    .main-nav.LandingNav a:not(.btn),
+    .main-nav.LandingNav .btn {
         display: block;
-        /* Make links take full width for easier tapping */
-        padding: 0.5rem 1rem;
+        width: 100%;
+        text-align: left;
+        padding: 1rem;
+        /* Increased padding for better touch targets */
+        margin: 0;
+        /* Remove individual margins */
+        box-sizing: border-box;
     }
 
-    .main-nav .btn {
-        margin-left: 0;
-        margin-top: 0.5rem;
-        width: calc(100% - 2rem);
-        /* Full width button with padding */
-        margin-left: auto;
-        margin-right: auto;
+    .main-nav.LandingNav a:not(.btn)::after {
+        display: none;
+        /* Hide underline effect on mobile */
+    }
+
+    .main-nav.LandingNav .btn {
+        text-align: center;
+        /* Center text for buttons */
+        margin: 0.5rem 0;
+        /* Add some margin around buttons */
+    }
+
+    .main-nav.LandingNav .btn:first-of-type {
+        margin-top: 1rem;
+        /* More space before first button */
     }
 
     .mobile-nav-toggle {
         display: block;
-        /* Show toggle button */
     }
 
     .hero-section h1 {
@@ -563,21 +704,22 @@ img {
 
     .hero-search-form {
         flex-direction: column;
-        gap: 0.5rem;
+        gap: 0.75rem;
         padding: 1rem;
     }
 
     .hero-search-form input[type="text"] {
         width: 100%;
         border-radius: var(--border-radius);
-        border-right: 1px solid #ced4da;
-        /* Add back border */
-        margin-bottom: 0.5rem;
+        /* Full radius on mobile */
+        border: 1px solid var(--border-color);
+        /* Add border back as container border is gone */
     }
 
     .hero-search-form .btn {
         width: 100%;
         border-radius: var(--border-radius);
+        /* Full radius on mobile */
     }
 
     h1 {
@@ -593,291 +735,42 @@ img {
         text-align: center;
     }
 
+    .footer-links ul {
+        margin-bottom: 1rem;
+    }
+
     .footer-social {
         margin-top: 1rem;
     }
 
     .footer-social a {
-        margin: 0 0.5rem;
+        margin: 0 0.75rem;
+        /* Adjust social icon spacing */
     }
 }
 
-/* Animated Navbar Styles for LandingPage.jsx */
-
-/* --- CSS Variables (Assumed from your project's global styles) --- */
-:root {
-    --primary-color: #007bff;
-    --primary-color-dark: #0056b3;
-    --secondary-color: #6c757d;
-    /* For other buttons if any */
-    --light-color: #f8f9fa;
-    --dark-color: #343a40;
-    --text-color: #212529;
-    --border-color: #dee2e6;
-    --border-radius: 8px;
-    --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-}
-
-/* --- Main Header (Navbar Container) --- */
-.main-header {
-    background-color: #fff;
-    padding: 1rem 0;
-    /* Vertical padding */
-    box-shadow: var(--box-shadow);
-    border-bottom: 1px solid var(--border-color);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    transition: box-shadow 0.3s ease-in-out;
-    /* Smooth shadow transition if it changes */
-}
-
-/* Add a slightly more pronounced shadow on scroll (requires JavaScript to add a class) */
-.main-header.scrolled {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.main-header .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 90%;
-    /* Consistent with your other container */
-    max-width: 1200px;
-    /* Consistent with your other container */
-    margin: 0 auto;
-    padding: 0 15px;
-    /* Consistent with your other container */
-}
-
-/* --- Logo Styling --- */
-.logo a {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--dark-color);
-    text-decoration: none;
-    transition: transform 0.3s ease, color 0.3s ease;
-    display: inline-block;
-    /* For transform to work */
-}
-
-.logo a:hover {
-    transform: scale(1.05);
-    /* Slight zoom on hover */
-    color: var(--primary-color);
-}
-
-.logo .logo-accent {
-    color: var(--primary-color);
-    transition: color 0.3s ease;
-}
-
-.logo a:hover .logo-accent {
-    color: var(--primary-color-dark);
-}
-
-
-/* --- Main Navigation (for LandingPage.jsx: .main-nav.LandingNav) --- */
-.main-nav.LandingNav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    /* Spacing between nav items */
-}
-
-.main-nav.LandingNav li {
-    /* margin-left: 1.5rem; original spacing, replaced by gap on ul */
-}
-
-/* Styling for regular text links in the navbar */
-.main-nav.LandingNav a:not(.btn) {
-    color: var(--text-color);
-    font-weight: 500;
-    text-decoration: none;
-    padding: 0.5rem 0.75rem;
-    border-radius: var(--border-radius);
-    position: relative;
-    /* For pseudo-element underline */
-    transition: color 0.3s ease, background-color 0.3s ease;
-}
-
-.main-nav.LandingNav a:not(.btn)::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: -2px;
-    /* Adjust for spacing */
-    left: 50%;
-    background-color: var(--primary-color);
-    transition: width 0.3s ease-in-out, left 0.3s ease-in-out;
-}
-
-.main-nav.LandingNav a:not(.btn):hover::after {
-    width: 100%;
-    left: 0;
-}
-
-.main-nav.LandingNav a:not(.btn):hover,
-.main-nav.LandingNav a:not(.btn).active {
-    /* Assuming an 'active' class for current page */
-    color: var(--primary-color);
-    /* background-color: #f0f0f0; Optional: slight background on hover */
-}
-
-
-/* --- Button Styling (as used in LandingNav) --- */
-.main-nav.LandingNav .btn {
-    display: inline-flex;
-    /* For icon alignment if any */
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 0.6rem 1.2rem;
-    /* Adjusted padding for navbar buttons */
-    font-size: 0.9rem;
-    /* Slightly smaller font for navbar buttons */
-    font-weight: 500;
-    text-align: center;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out, color 0.3s ease-in-out, transform 0.2s ease;
-    border: 1px solid transparent;
-    text-decoration: none;
-    margin-left: 0.5rem;
-    /* Spacing between buttons or from last text link */
-}
-
-.main-nav.LandingNav .btn-primary {
-    background-color: var(--primary-color);
-    color: #fff;
-    border-color: var(--primary-color);
-}
-
-.main-nav.LandingNav .btn-primary:hover {
-    background-color: var(--primary-color-dark);
-    border-color: var(--primary-color-dark);
-    color: #fff;
-    transform: translateY(-2px);
-    /* Slight lift on hover */
-    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
-}
-
-/* --- Mobile Navigation Toggle (Basic Styling & Hover) --- */
-.mobile-nav-toggle {
-    display: none;
-    /* Hidden by default, shown on small screens via media query */
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0.5rem;
-    z-index: 1001;
-    /* Ensure it's above other nav elements if it overlaps */
-}
-
-.mobile-nav-toggle span {
-    display: block;
-    width: 25px;
-    height: 3px;
-    background-color: var(--dark-color);
-    margin: 5px 0;
-    border-radius: 3px;
-    transition: all 0.3s ease-in-out;
-}
-
-.mobile-nav-toggle:hover span {
-    background-color: var(--primary-color);
-}
-
-/* Animation for mobile toggle when active (requires JS to add 'active' class) */
-.mobile-nav-toggle.active span:nth-child(1) {
-    transform: translateY(8px) rotate(45deg);
-}
-
-.mobile-nav-toggle.active span:nth-child(2) {
-    opacity: 0;
-}
-
-.mobile-nav-toggle.active span:nth-child(3) {
-    transform: translateY(-8px) rotate(-45deg);
-}
-
-
-/* --- Responsive Adjustments for Navbar --- */
-@media (max-width: 992px) {
-
-    /* Adjust breakpoint as needed */
-    .main-nav.LandingNav {
-        display: none;
-        /* Hide desktop nav */
-        /* Further mobile nav styles would go here (e.g., when active) */
-        /* Example:
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background-color: #fff;
-    flex-direction: column;
-    padding: 1rem;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    */
+@media (max-width: 576px) {
+    .main-header {
+        padding: 0.75rem 0;
+        /* Slightly reduce header padding */
     }
 
-    .main-nav.LandingNav.active {
-        /* JS would toggle this class */
-        display: flex;
-        flex-direction: column;
-        position: absolute;
-        top: 100%;
-        /* Position below the header */
-        left: 0;
-        right: 0;
-        background-color: #fff;
-        padding: 1rem;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-        border-top: 1px solid var(--border-color);
+    .logo a {
+        font-size: 1.6rem;
+        /* Smaller logo */
     }
 
-    .main-nav.LandingNav ul {
-        flex-direction: column;
-        width: 100%;
-        gap: 0;
-        /* Reset gap, use margin on li */
+    .hero-section {
+        padding: 4rem 0;
     }
 
-    .main-nav.LandingNav li {
-        width: 100%;
-        margin: 0;
-        /* Reset margin */
+    .hero-section h1 {
+        font-size: 1.8rem;
     }
 
-    .main-nav.LandingNav a:not(.btn),
-    .main-nav.LandingNav .btn {
-        display: block;
-        /* Make links and buttons take full width */
-        width: 100%;
-        text-align: left;
-        padding: 0.8rem 1rem;
-        margin: 0.5rem 0;
-        /* Spacing for stacked items */
-    }
-
-    .main-nav.LandingNav a:not(.btn)::after {
-        /* Adjust or remove underline for mobile if it doesn't look good */
-        display: none;
-    }
-
-    .main-nav.LandingNav .btn {
-        text-align: center;
-        /* Center text for buttons in mobile */
-    }
-
-    .mobile-nav-toggle {
-        display: block;
-        /* Show mobile toggle */
+    .service-categories-grid,
+    .how-it-works-grid {
+        grid-template-columns: 1fr;
+        /* Single column for cards */
     }
 }
