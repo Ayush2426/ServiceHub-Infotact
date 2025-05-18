@@ -48,7 +48,7 @@ const router = createBrowserRouter([
         element: <LoginPage />,
       },
       {
-        path: "/service-booking",
+        path: "/browse-services",
         element: <BrowseServicesPage />
       },
       {
